@@ -1,0 +1,44 @@
+"crie pra mim um site completo, com tema dark e cyberpunk, o site é sobre venda de scripts e cheats, inicialmente para o jogo blood strike, a pagina deve conter artigo de vendas, avaliaçoes, guia de uso, otimizaçoes e etc, tudo com o conteudo ja retirado da internet, que seja completo e proficional, o nome do site sera FovDark, retire imagens verdadeira do blood strike da internet, para adicionar em topcos sobe ele, vai precisar de database, com sistema de loguin e autenticaçao, email para confirmaçao, pagina adm, e tambem vai precisar de hwid para quando as vendas forem realizadas, mais algumas modificaçoes podem serem feitas se achar que for pra melhorar, faça um conteudo proficional, o nome do site é FovDark, adicione multi-linguagem ingles , portuges e espanhol, produtos relacionado ao jogo blood strike pc com imagens, use o https://github.com/lsalles102/darkfov como base, retire os backend, e a estrura grafica e tematica pra adicionar no nosso projeto, mantenha aqui apenas o servisos conectado, databese, host e entre outros para que funcione legal, adaptar apenas os elementos visuais e temáticos para nosso projeto, mantendo nossa infraestrutura de backend, banco de dados e serviços" , Create a complete, professional and functional website called **FovDark**, with a **dark cyberpunk** visual theme, aimed at **selling scripts and cheats**, initially focused on the game **Blood Strike (PC)**.
+
+### Main features:
+- **Visual theme and graphic structure based on the repository:** https://github.com/lsalles102/darkfov (adapt only the visual, keeping our backend and service infrastructure).
+- Responsive and modern layout with a **dark cyberpunk** visual (futuristic with neon tones and strong contrasts).
+- Complete **authentication** system:
+- Registration with confirmation by email.
+- Secure login.
+- Integration with **HWID verification** after purchase.
+- Administration panel with control over users, orders and products.
+
+### Website structure:
+1. **Home** – Visual highlights, most popular products, calls to action.
+2. **Sales article** – Detailed description of scripts and cheats for Blood Strike.
+3. **Evaluations** – User review system with stars and comments.
+4. **User guide** – Step-by-step tutorials for installing and using the products.
+5. **Optimizations** – Extra tips to improve performance with the scripts.
+6. **Products** – List of cheats/scripts with real images taken from the internet (from the Blood Strike game), with prices and purchase buttons.
+
+### Other features:
+- Support for **multi-language (Portuguese, English and Spanish)** with selection option at the top of the site.
+- Integration with **database** (Firebase, MongoDB or PostgreSQL) for users, products and transactions.
+- **Administration** page with control of products, users, orders and feedbacks.
+- Send confirmation emails and notifications using a service such as **SMTP**, **SendGrid** or similar.
+- **HWID verification** system linked to the account after purchase.
+- User profile page, with order history and available downloads.
+
+### Suggested technologies:
+- **Frontend:** HTML, CSS (Tailwind or custom Cyberpunk UI), JavaScript, React or Next.js.
+- **Backend:** Keep the current infrastructure (indicate only where to connect the services).
+- **Database:** Connect to the existing database according to the current structure.
+- **Authentication:** JWT or Firebase Auth, with email support.
+- **Multi-language:** i18n (React-i18next or similar).
+
+**Important:** DO NOT change the current backend. Just adapt the visual elements, graphics and interface structure based on the `darkfov` project, keeping the entire system, database and services connected to the current project.
+
+Use real images of Blood Strike (taken from the internet) to enrich the topics and pages of the site.
+
+**Project name:** FovDark
+**Theme:** Dark + Cyberpunk
+**Initial focus:** Products for Blood Strike (PC)
+
+If necessary, small modifications can be made to improve the overall user experience and system performance. 
+ implementação do suporte ao português brasileiro (pt-BR)
