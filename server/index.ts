@@ -3,13 +3,13 @@ import session from "express-session";
 import dotenv from "dotenv";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-dotenv.config();
-
+import postgres from 'postgres';
 import { db } from './db';
 
 // Verificar conexão com banco de dados
 const testConnection = async () => {
   try {
+    const sql = postgres(process.env.DATABASE_URL!);
     const result = await sql`SELECT 1+1`;
     console.log('✅ Conexão com Supabase estabelecida com sucesso!');
     return true;
