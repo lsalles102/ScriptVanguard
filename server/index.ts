@@ -10,10 +10,12 @@ import { db } from './db';
 // Verificar conexão com banco de dados
 const testConnection = async () => {
   try {
-    await db.execute('SELECT 1+1');
+    const result = await sql`SELECT 1+1`;
     console.log('✅ Conexão com Supabase estabelecida com sucesso!');
+    return true;
   } catch (error) {
     console.error('❌ Erro ao conectar com Supabase:', error);
+    return false;
   }
 };
 

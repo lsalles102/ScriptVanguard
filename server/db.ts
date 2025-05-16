@@ -9,8 +9,6 @@ if (!connectionString) {
 
 const sql = postgres(connectionString, { 
   max: 1,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: 'require'
 });
 export const db = drizzle(sql);
