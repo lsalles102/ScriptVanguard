@@ -1,9 +1,21 @@
-
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import dotenv from "dotenv";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { db } from './db';
+
+// Verificar conexão com banco de dados
+const testConnection = async () => {
+  try {
+    await db.execute(sql`SELECT 1+1`);
+    console.log('✅ Conexão com Supabase estabelecida com sucesso!');
+  } catch (error) {
+    console.error('❌ Erro ao conectar com Supabase:', error);
+  }
+};
+
+testConnection();
 
 dotenv.config();
 
