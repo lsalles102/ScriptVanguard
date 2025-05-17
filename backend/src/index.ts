@@ -1,39 +1,38 @@
 import express from 'express';
 import cors from 'cors';
+import session from 'express-session';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { db } from './db';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic } from "./vite";
 import { type Request, Response, NextFunction } from "express";
-import session from "express-session";
 import postgres from 'postgres';
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 const host = '0.0.0.0';
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL || '*.repl.co']
-    : ['http://0.0.0.0:5173', 'https://0.0.0.0:5173'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
 }));
+
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Configuração da session
 app.use(
   session({
-    secret: process.env.SESSION_SECRET as string,
+    secret: process.env.SESSION_SECRET || 'dev-secret',
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // coloca true se for HTTPS em produção
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax'
     },
   }),
 );
@@ -70,8 +69,8 @@ app.use((req, res, next) => {
 });
 
 // Rota de teste
-app.get('/', (req, res) => {
-  res.json({ message: 'API funcionando!' });
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok' });
 });
 
 // Middleware de erro
@@ -95,12 +94,12 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 
     server.listen(
     {
-      port,
+      port: PORT,
       host: "0.0.0.0",
       reusePort: true,
     },
     () => {
-      console.log(`Backend rodando na porta ${port}`);
+      console.log(`Backend running on port ${PORT}`);
     },
   );
 })();
