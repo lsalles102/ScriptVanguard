@@ -1,85 +1,76 @@
-# Guia de Deploy do FovDark para Vercel
 
-Este guia explica como fazer o deploy do FovDark, sua loja cyberpunk de scripts e cheats para BloodStrike, usando o Vercel e o Supabase.
+# Guia de Deploy do FovDark para Railway
+
+Este guia explica como fazer o deploy do FovDark, sua loja cyberpunk de scripts e cheats para BloodStrike, usando Railway e Supabase.
 
 ## Pré-requisitos
 
-1. Conta no [Vercel](https://vercel.com)
+1. Conta no [Railway](https://railway.app)
 2. Projeto criado no [Supabase](https://supabase.com)
 3. Banco de dados PostgreSQL configurado no Supabase
 
-## Passo 1: Configurar o Banco de Dados no Supabase
+## Passo 1: Deploy do Backend
 
-1. Acesse o dashboard do Supabase
-2. Escolha seu projeto
-3. Vá até a seção "Table Editor" e execute o script SQL a seguir para criar as tabelas:
+1. No Railway, crie um novo projeto
+2. Selecione "Deploy from GitHub repo"
+3. Configure as seguintes variáveis de ambiente:
+   ```
+   DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT-REF].supabase.co:5432/postgres
+   SESSION_SECRET=your-secret-key
+   CORS_ORIGIN=https://your-frontend-url.railway.app
+   NODE_ENV=production
+   ```
+4. No diretório `backend`, configure o script de build:
+   ```json
+   {
+     "scripts": {
+       "build": "tsc",
+       "start": "node dist/index.js"
+     }
+   }
+   ```
 
-```sql
--- As tabelas serão criadas automaticamente pelo Drizzle ORM
--- Para criar as tabelas, você precisará executar o comando:
--- npm run db:push
+## Passo 2: Deploy do Frontend
+
+1. Crie outro projeto no Railway
+2. Selecione "Deploy from GitHub repo"
+3. Configure as variáveis de ambiente:
+   ```
+   VITE_SUPABASE_URL=https://[YOUR-PROJECT-REF].supabase.co
+   VITE_SUPABASE_ANON_KEY=[YOUR-ANON-KEY]
+   VITE_API_URL=https://your-backend-url.railway.app
+   ```
+4. No diretório `frontend`, o Railway detectará automaticamente o projeto Vite
+
+## Passo 3: Configurar CORS no Backend
+
+Atualize o arquivo `backend/src/index.ts` para usar a origem correta:
+
+```typescript
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+  credentials: true
+}));
 ```
 
-4. Execute o script de seed para popular o banco de dados com dados iniciais:
+## Passo 4: Configurar o Banco de Dados
 
-```bash
-npm run db:seed
-```
+1. No dashboard do Supabase, vá para "Database"
+2. Execute o comando de migração:
+   ```bash
+   npm run db:push
+   ```
+3. Execute o seed se necessário:
+   ```bash
+   npm run db:seed
+   ```
 
-## Passo 2: Variáveis de Ambiente
+## Passo 5: Verificar Deploy
 
-Configure as seguintes variáveis de ambiente no Vercel:
+1. Acesse a URL do frontend fornecida pelo Railway
+2. Verifique se todas as funcionalidades estão funcionando
+3. Teste o login e outras funcionalidades principais
 
-- `DATABASE_URL`: A URI de conexão do seu banco de dados Supabase (formato: `postgres://[user]:[password]@[host]:[port]/[database]`)
-- `VITE_SUPABASE_URL`: A URL do seu projeto Supabase
-- `VITE_SUPABASE_ANON_KEY`: A chave anônima do seu projeto Supabase
-- `SESSION_SECRET`: Uma string aleatória longa para criptografar as sessões
-- `SENDGRID_API_KEY`: (opcional) Para enviar emails através do SendGrid
+## Suporte
 
-## Passo 3: Deploy no Vercel
-
-1. No dashboard do Vercel, clique em "New Project"
-2. Importe seu repositório do GitHub/GitLab/Bitbucket
-3. Configure as variáveis de ambiente mencionadas acima
-4. Defina as seguintes configurações:
-   - Framework Preset: Vite
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Install Command: `npm install`
-5. Clique em "Deploy"
-
-## Passo 4: Configurar CORS no Supabase
-
-1. No dashboard do Supabase, vá para "Authentication" > "URL Configuration"
-2. Adicione a URL do seu projeto Vercel nas configurações de site URL
-3. Adicione a URL do seu projeto Vercel nas configurações de redirecionamento
-
-## Passo 5: Configuração de Domínio Personalizado (opcional)
-
-1. No dashboard do Vercel, vá para seu projeto
-2. Navegue até "Settings" > "Domains"
-3. Adicione seu domínio personalizado e siga as instruções para configurar os registros DNS
-
-## Passo 6: Verificar Deploy
-
-1. Acesse a URL fornecida pelo Vercel após o deploy
-2. Verifique se todas as funcionalidades estão funcionando corretamente
-3. Faça login e verifique se o painel de administração está acessível
-
-## Problemas Comuns e Soluções
-
-### Problema: Falha na conexão com o banco de dados
-- Verifique se a variável `DATABASE_URL` está correta
-- Garanta que o IP do Vercel esteja na lista de IPs permitidos no Supabase
-
-### Problema: Falha na autenticação
-- Verifique se as variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` estão corretas
-- Verifique as configurações de CORS no Supabase
-
-### Problema: Falha no envio de emails
-- Verifique se a variável `SENDGRID_API_KEY` está correta
-- Verifique o remetente autorizado nas configurações do SendGrid
-
-## Suporte e Contato
-
-Se precisar de ajuda, entre em contato pelo e-mail [seu-email@exemplo.com]
+Se precisar de ajuda, abra uma issue no repositório do projeto.
