@@ -91,3 +91,7 @@ args = "cd backend && npm install && NODE_ENV=development npm run dev & cd front
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[[ports]]
+localPort = 5173
+externalPort = 5173
