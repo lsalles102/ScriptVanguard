@@ -38,10 +38,11 @@ export function getSession() {
     saveUninitialized: false,
     name: 'sessionId',
     rolling: true,
+    proxy: true,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
       maxAge: sessionTtl,
     },
   });
