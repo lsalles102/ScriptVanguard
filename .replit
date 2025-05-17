@@ -8,8 +8,8 @@ packages = ["lsof"]
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["sh", "-c", "npm start"]
-build = ["sh", "-c", "npm run build"]
+run = ["sh", "-c", "cd backend && npm start"]
+build = ["sh", "-c", "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run build"]
 
 [workflows]
 runButton = "Dev"
@@ -52,7 +52,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd server"
+args = "cd backend"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
@@ -60,7 +60,7 @@ args = "npm install"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "NODE_ENV=development tsx index.ts"
+args = "npm run dev"
 
 [[workflows.workflow]]
 name = "Frontend Dev"
@@ -69,7 +69,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd client"
+args = "cd frontend"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"

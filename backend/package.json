@@ -1,0 +1,27 @@
+
+{
+  "name": "fovdark-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.5",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.39.1",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/node": "^20.17.47",
+    "drizzle-kit": "^0.30.4",
+    "tsx": "^4.19.4",
+    "typescript": "5.6.3"
+  }
+}
