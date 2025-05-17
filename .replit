@@ -45,6 +45,40 @@ args = "npm install"
 task = "shell.exec"
 args = "NODE_ENV=development npm run dev"
 
+[[workflows.workflow]]
+name = "Backend Dev"
+author = 42786273
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "NODE_ENV=development tsx index.ts"
+
+[[workflows.workflow]]
+name = "Frontend Dev"
+author = 42786273
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
 [[ports]]
 localPort = 5000
 externalPort = 80
