@@ -8,8 +8,7 @@ packages = ["lsof"]
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["sh", "-c", "cd backend && NODE_ENV=production node dist/index.js"]
-build = ["sh", "-c", "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run build"]
+run = ["sh", "-c", "npm run dev"]
 
 [workflows]
 runButton = "Full Stack Dev"
