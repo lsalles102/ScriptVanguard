@@ -11,7 +11,7 @@ deploymentTarget = "autoscale"
 run = ["sh", "-c", "npm run dev"]
 
 [workflows]
-runButton = "Full Stack Dev"
+runButton = "Dev Setup"
 
 [[workflows.workflow]]
 name = "Project"
@@ -86,6 +86,19 @@ mode = "parallel"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd backend && npm install && NODE_ENV=development npm run dev & cd frontend && npm install && VITE_API_URL=http://0.0.0.0:5000 npm run dev"
+
+[[workflows.workflow]]
+name = "Dev Setup"
+author = 42807653
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm install && cd ../frontend && npm install && cd .."
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && NODE_ENV=development npm run dev & cd frontend && VITE_API_URL=http://0.0.0.0:5000 npm run dev"
 
 [[ports]]
 localPort = 5000
