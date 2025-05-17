@@ -17,8 +17,8 @@ const host = '0.0.0.0';
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL || 'https://seu-frontend.repl.co']
-    : ['http://0.0.0.0:5173'],
+    ? [process.env.FRONTEND_URL || '*.repl.co']
+    : ['http://0.0.0.0:5173', 'https://0.0.0.0:5173'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
