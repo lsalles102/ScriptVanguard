@@ -1,25 +1,10 @@
-
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/types/supabase';
 
-if (!import.meta.env.VITE_SUPABASE_URL) {
-  throw new Error('VITE_SUPABASE_URL não está definida');
-}
+const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://pgepubxloominybyvcuv.supabase.co'
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZXB1Ynhsb29taW55Ynl2Y3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0MjI2MjgsImV4cCI6MjA2Mjk5ODYyOH0.RVa4ZZPHWBK72z7xh2X-5k1AdLFAwASArWybotNGlow'
 
-if (!import.meta.env.VITE_SUPABASE_ANON_KEY) {
-  throw new Error('VITE_SUPABASE_ANON_KEY não está definida');
-}
-
-export const supabase = createClient<Database>(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY,
-  {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-    },
-  }
-);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export const isUserLoggedIn = async () => {
   const { data } = await supabase.auth.getSession();
