@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { db } from './db';
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import { setupVite, serveStatic } from "./vite";
 import { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import postgres from 'postgres';
