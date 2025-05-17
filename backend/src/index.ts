@@ -13,6 +13,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
+const host = '0.0.0.0';
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
