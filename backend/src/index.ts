@@ -1,43 +1,21 @@
-import express, { type Request, Response, NextFunction } from "express";
-import session from "express-session";
-import dotenv from "dotenv";
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { db } from './db';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { type Request, Response, NextFunction } from "express";
+import session from "express-session";
 import postgres from 'postgres';
-import { db } from './db';
 
-// Verificar conexão com banco de dados
-const testConnection = async () => {
-  try {
-    const sql = postgres(process.env.DATABASE_URL!);
-    const result = await sql`SELECT 1+1`;
-    console.log('✅ Conexão com Supabase estabelecida com sucesso!');
-    return true;
-  } catch (error) {
-    console.error('❌ Erro ao conectar com Supabase:', error);
-    return false;
-  }
-};
-
-testConnection();
+dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 5000;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Configuração CORS
-app.use((req, res, next) => {
-  const allowedOrigins = ['https://fovdark.vercel.app', 'http://localhost:5173'];
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
 
 // Configuração da session
 app.use(
@@ -82,35 +60,38 @@ app.use((req, res, next) => {
   next();
 });
 
+// Rota de teste
+app.get('/', (req, res) => {
+  res.json({ message: 'API funcionando!' });
+});
+
+// Middleware de erro
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+  res.status(status).json({ message });
+  throw err;
+});
+
 (async () => {
-  const server = await registerRoutes(app);
+    const server = await registerRoutes(app);
 
-  // Middleware de erro
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    // Setup do Vite em desenvolvimento
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
+    }
 
-    res.status(status).json({ message });
-    throw err;
-  });
-
-  // Setup do Vite em desenvolvimento
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
-
-  // Inicia o servidor na porta 5000
-  const port = process.env.PORT || 5000;
-  server.listen(
+    server.listen(
     {
       port,
       host: "0.0.0.0",
       reusePort: true,
     },
     () => {
-      log(`serving on port ${port}`);
+      console.log(`Backend rodando na porta ${port}`);
     },
   );
 })();
